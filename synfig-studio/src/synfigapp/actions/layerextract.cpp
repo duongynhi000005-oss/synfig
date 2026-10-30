@@ -93,7 +93,7 @@ Action::LayerExtract::is_candidate(const ParamList &x)
 	if (layer->get_param_list().count("filename") != 0)
 	{
 		String filename = layer->get_param("filename").get(String());
-		if ( !CanvasFileNaming::is_embeded(filename)
+		if ( CanvasFileNaming::is_embeded(filename)
 	      && !layer->dynamic_param_list().count("filename") )
 			return true;
 	}
@@ -111,7 +111,7 @@ Action::LayerExtract::set_param(const synfig::String& name, const Action::Param 
 		if (layer->get_param_list().count("filename") != 0)
 		{
 			String filename = layer->get_param("filename").get(String());
-			if ( !CanvasFileNaming::is_embeded(filename)
+			if ( CanvasFileNaming::is_embeded(filename)
 		      && !layer->dynamic_param_list().count("filename") )
 			{
 				this->layer = layer;
@@ -135,6 +135,8 @@ bool
 Action::LayerExtract::is_ready()const
 {
 	if(!layer)
+		return false;
+	if(!get_canvas() || !get_canvas()->get_file_system())
 		return false;
 	return Action::CanvasSpecific::is_ready();
 }
