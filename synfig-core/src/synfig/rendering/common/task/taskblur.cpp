@@ -59,6 +59,8 @@ TaskBlur::calc_bounds() const
 {
 	if (!sub_task()) return Rect::zero();
 	Rect bounds = sub_task()->get_bounds();
+	if (fabs(blur.size[0]) <= 1e-10 && fabs(blur.size[1]) <= 1e-10)
+		return bounds;
 	Vector size = blur.size * software::Blur::get_extra_size(blur.type);
 	size[0] = fabs(size[0]) + 1.0;
 	size[1] = fabs(size[1]) + 1.0;

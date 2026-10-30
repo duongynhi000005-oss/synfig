@@ -155,8 +155,13 @@ software::Blur::get_extra_size(
 	const Vector &size )
 {
 	const Real precision = 1e-10;
+	if (fabs(size[0]) <= precision && fabs(size[1]) <= precision)
+		return VectorInt(0, 0);
 	Vector s = size*get_extra_size(type);
-	return VectorInt( (int)ceil(fabs(s[0]) + 1.0 - precision), (int)ceil(fabs(s[1]) + 1.0 - precision) );
+	return VectorInt(
+		fabs(s[0]) <= precision ? 0 : (int)ceil(fabs(s[0]) + 1.0 - precision),
+		fabs(s[1]) <= precision ? 0 : (int)ceil(fabs(s[1]) + 1.0 - precision)
+	);
 }
 
 void
